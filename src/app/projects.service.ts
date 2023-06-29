@@ -14,4 +14,7 @@ export class ProjectsService {
   {
     return this.httpClient.get<Project[]>(this.BASE_URL+"api/projects")
   }
+  insertProject(newProject:Project):Observable<Project>{
+    return this.httpClient.post<Project>(this.BASE_URL+"api/projects",newProject);
+  }
 }
