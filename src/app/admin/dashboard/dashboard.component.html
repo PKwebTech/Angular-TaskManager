@@ -1,0 +1,181 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="#">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+</nav>
+<h5>Dashboard</h5>
+{{ToDay |date :"mediumDate"}}
+<div class="row">
+    <div class="col-lg-3 pb-3 bgLightWhite">
+        <div class="row py-2">
+            <div class="col-11 text-white text-center mx-auto rounded pt-2 pb-2 fw-bold bgLightGray">
+                {{Designation | uppercase}}
+            </div>
+            <div class="col-12 text-center mt-2">
+                <img src="../../../assets/user.png" width="120px" alt="">
+            </div>
+            <div class="col-12 text-center pt-2 pb-2 fw-bold">
+                {{UserName |lowercase}}
+            </div>
+            <div class="col-12 text-center py-2">TEAM SUMMARY</div>
+            <div class="col-12 mb-2">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        NO OF TEAM MEMBERS
+                        <span class=" badge bg-secondary">{{NoOfTeamMembers}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        TOTAL COST OF PROJECT
+                        <span class=" badge bg-secondary">${{TotalCostOfAllProject}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        PENDING TASKS
+                        <span class=" badge bg-secondary">{{PendingTasks}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        UPCOMING PROJECTS
+                        <span class=" badge bg-secondary">{{UpComingProjects |percent}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 text-center py-2">CLIENTS</div>
+            <div class="col-12">
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let clients of Clients">{{clients |slice:0:10}}</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-12 pt-0 pb-2 bgLightWhite">
+                <div class="row mt-2">
+                    <div class="col-6 text-left">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Project A
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" *ngFor="let projects of Projects" onClick="return false"
+                                        (click)="onProjectChange(projects)" href="#">{{projects}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 text-end">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Years
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                <li><a class="dropdown-item" href="#" *ngFor="let years of Years">
+                                        <span [ngSwitch]="years">
+                                            <span *ngSwitchCase="'2019'" class="text-success">{{years}}</span>
+                                            <span *ngSwitchCase="'2018'" class="text-primary">{{years}}</span>
+                                            <span *ngSwitchCase="'2017'" class="text-danger">{{years}}</span>
+                                            <span *ngSwitchDefault>{{years}}</span>
+                                        </span>
+                                    </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mx-auto text-white   text-center py-2  fw-bold bgLightGray">
+                PROJECT BRIEFING
+            </div>
+            <div class="col-12">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Project Cost</td>
+                        <td>{{ProjectCost |currency:"INR"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Current Expenditure</td>
+                        <td>{{CurrentExpenditure |currency:"INR"}}</td>
+                    </tr>
+                    <tr>
+                        <td>Avaible Funds</td>
+                        <td>{{AvaibleFunds |currency:"INR"}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-12 mx-auto text-white  mt-1 text-center py-2  fw-bold bgLightGray">
+                TEAM MEMBERS SUMMARY
+            </div>
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col">Region</th>
+                            <th class="col">Team Members Count</th>
+                            <th class="col">Temporarily Unavailable Members</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let teamMemberSummary of TeamMembersSummary">
+                            <td>{{teamMemberSummary.Region}}</td>
+                            <td>{{teamMemberSummary.TeamMembersCount}}</td>
+                            <td>{{teamMemberSummary.TemporarilyUnavailableMembers}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 bgLightWhite">
+        <div class="col-11 mx-auto text-white  my-1 text-center py-2 rounded fw-bold bgLightGray">
+            TEAM MEMBERS
+        </div>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item" *ngFor="let teamMembersGroup of TeamMembers;let i=index">
+                <h2 class="accordion-header" [id]="'heading'+i">
+                    <button class="accordion-button" type="button" [ngClass]="{ 'collapsed': i != 0 }"
+                        data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
+                        [attr.aria-controls]="'collapse'+i">
+                        {{teamMembersGroup.Region}}
+                    </button>
+                </h2>
+                <div [id]="'collapse'+i" [ngClass]="{ 'show': i == 0 }" class="accordion-collapse collapse show"
+                    [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div *ngIf="i==0;then firstTemplate else secondTemplate"></div>
+                        <ng-template #firstTemplate>
+                            <div class="card mt-2" *ngFor="let memeber of teamMembersGroup.Members">
+                                <div class="card-header bg-primary text-white">
+                                    #{{memeber.Id}} {{memeber.Name}}
+                                </div>
+                                <div class="card-body">
+                                    {{memeber.Status}}
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #secondTemplate>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let memeber of teamMembersGroup.Members">
+                                        <td>{{memeber.Id}}</td>
+                                        <td [style.color]="(memeber.Status=='Busy')?'red':'black'">{{memeber.Name}}</td>
+                                        <td>{{memeber.Status}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-template>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
